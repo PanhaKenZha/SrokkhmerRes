@@ -1,0 +1,52 @@
+/* Header language toggle + theme switch (storefront header and manager top bar). Active states follow html[lang] / html[data-theme], so they are right on first paint. */
+:root{--hc-bg:#f6f1e6;--hc-border:#e8dfcd;--hc-text:#5d7370;--hc-strong:#11312f;--hc-active:#12403c;--hc-on-active:#fbf6ea;--hc-track:#f3e2b8;--hc-knob:#fffdf8;--hc-sun:#b7812a;--hc-moon:#7d918e}
+html[data-theme=dark]{--hc-bg:#182a28;--hc-border:#2c4542;--hc-text:#a9c0bd;--hc-strong:#f3ecdd;--hc-active:#d6ad5c;--hc-on-active:#1b1607;--hc-track:#0f3431;--hc-knob:#d6ad5c;--hc-sun:#6f8784;--hc-moon:#f3d58f}
+
+.site-preferences{display:flex;align-items:center;gap:4px;height:40px;padding:4px;border-radius:999px;background:var(--hc-bg);border:1px solid var(--hc-border);flex-shrink:0}
+.pref-divider{width:1px;height:20px;background:var(--hc-border);margin:0 3px}
+
+.lang-toggle{position:relative;display:grid;grid-template-columns:1fr 1fr;isolation:isolate}
+.lang-toggle::before{content:'';position:absolute;z-index:-1;top:0;bottom:0;left:0;width:50%;border-radius:999px;background:var(--hc-active);box-shadow:0 2px 8px -2px #12403c66;transition:transform .3s cubic-bezier(.34,1.4,.64,1),background-color .3s}
+html[lang=km] .lang-toggle::before{transform:translateX(100%)}
+html body .site-preferences .lang-toggle button{height:30px;min-width:46px;width:auto;padding:0 12px;border:0;border-radius:999px;background:transparent;color:var(--hc-text);font-size:12.5px;font-weight:700;letter-spacing:.3px;line-height:1;cursor:pointer;transition:color .25s}
+html body .site-preferences .lang-toggle button[lang=km]{font-family:'Noto Sans Khmer','DM Sans',sans-serif;font-size:13px;letter-spacing:0}
+html[lang=en] body .lang-toggle button[lang=en],html[lang=km] body .lang-toggle button[lang=km]{color:var(--hc-on-active)}
+html body .site-preferences .lang-toggle button:hover{color:var(--hc-strong)}
+html[lang=en] body .lang-toggle button[lang=en]:hover,html[lang=km] body .lang-toggle button[lang=km]:hover{color:var(--hc-on-active)}
+
+html body .site-preferences .theme-switch{display:grid;place-items:center;width:auto;height:30px;padding:0 2px;border:0;border-radius:999px;background:transparent;cursor:pointer}
+.theme-switch-track{position:relative;display:flex;align-items:center;justify-content:space-between;width:56px;height:30px;padding:0 8px;border-radius:999px;background:var(--hc-track);transition:background-color .3s}
+.theme-switch-icon{position:relative;z-index:1;font-size:13px;line-height:1;transition:color .3s,transform .4s}
+.theme-switch-icon.is-sun{color:var(--hc-sun)}.theme-switch-icon.is-moon{color:var(--hc-moon)}
+.theme-switch-knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--hc-knob);box-shadow:0 2px 6px #0000002e;transition:transform .35s cubic-bezier(.34,1.4,.64,1),background-color .3s}
+/* Light: knob covers the moon side, sun shows. Dark: knob slides right over the sun, moon glows. */
+.theme-switch-knob{transform:translateX(26px)}
+html[data-theme=dark] .theme-switch-knob{transform:translateX(0)}
+html[data-theme=dark] .theme-switch-icon.is-moon{transform:rotate(-20deg)}
+html:not([data-theme=dark]) .theme-switch-icon.is-sun{animation:sun-spin 12s linear infinite}
+@keyframes sun-spin{to{transform:rotate(360deg)}}
+html body .site-preferences button:focus-visible{outline:2px solid var(--hc-active);outline-offset:2px}
+
+.storefront>header .header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.storefront .account-guest a,.storefront .account-menu>summary{height:40px}
+html.theme-switching,html.theme-switching *,html.theme-switching *::before,html.theme-switching *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease!important}
+html.theme-switching .theme-switch-knob{transition:transform .35s cubic-bezier(.34,1.4,.64,1),background-color .35s!important}
+
+.manager-topbar .site-preferences{height:38px}
+
+@media(max-width:800px){.storefront>header .header-actions{order:2}}
+@media(max-width:600px){
+ .storefront>header .header-actions{gap:6px}
+ .site-preferences{height:36px;padding:3px}
+ html body .site-preferences .lang-toggle button{height:28px;min-width:38px;padding:0 9px;font-size:11.5px}
+ html body .site-preferences .lang-toggle button[lang=km]{font-size:12px}
+ .theme-switch-track{width:48px;height:28px;padding:0 6px}.theme-switch-knob{width:22px;height:22px;top:3px}.theme-switch-knob{transform:translateX(20px)}html[data-theme=dark] .theme-switch-knob{transform:translateX(0)}
+ .storefront .account-guest a,.storefront .account-menu>summary{height:36px}
+ .storefront .account-join{display:none!important}
+ .storefront>header .header-actions{width:100%;justify-content:space-between}
+ .storefront>header .header-actions .site-preferences{order:0}
+ .storefront>header>nav{overflow-x:auto;scrollbar-width:none;justify-content:safe center}
+ .storefront>header>nav::-webkit-scrollbar{display:none}
+ .storefront>header>nav a{flex:1 0 auto;white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce){.lang-toggle::before,.theme-switch-knob,.theme-switch-icon{transition:none}.theme-switch-icon.is-sun{animation:none!important}}

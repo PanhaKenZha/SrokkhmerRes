@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${DOCKER_APP_PORT:-8000}:80"
+    environment:
+      APP_URL: "http://localhost:${DOCKER_APP_PORT:-8000}"
+      DB_CONNECTION: sqlite
+      DB_URL: ""
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+    init: true
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://localhost/up') === false ? 1 : 0);"]
+      interval: 15s
+      timeout: 5s
+      start_period: 120s
+      retries: 5
+
+volumes:
+  vendor:

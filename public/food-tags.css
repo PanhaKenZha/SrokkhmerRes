@@ -1,0 +1,45 @@
+@charset "UTF-8";
+/* Animated food tags (customer menu + manager preview), dish entrance animation and the dish photo background. */
+.food-tag{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.1;letter-spacing:.1px;white-space:nowrap;background:#fffdf6f2;color:#11312f;box-shadow:0 3px 10px -2px #12403c33;animation:tag-pop .55s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i,0) * 45ms + var(--d,0) * 90ms + .2s)}
+.food-tag::before{display:inline-block;font-size:12px;line-height:1}
+.food-tag-popular{background:linear-gradient(135deg,#f6dc9c,#c9973b);color:#33240a}.food-tag-popular::before{content:'★'}
+.food-tag-popular::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,#ffffffb3 50%,transparent 70%);transform:translateX(-130%);animation:tag-shine 3.4s ease-in-out infinite;animation-delay:calc(var(--d,0) * .5s + 1.2s)}
+.food-tag-chef-s-pick{background:#12403c;color:#f3d58f}.food-tag-chef-s-pick::before{content:'♛'}
+.food-tag-new{background:#b8482f;color:#fff6ee}.food-tag-new::before{content:'✦';animation:tag-twinkle 2.2s ease-in-out infinite}
+.food-tag-spicy{background:#fbe1d3;color:#9c3417}.food-tag-spicy::before{content:'🌶️';animation:tag-wiggle 1.8s ease-in-out infinite;transform-origin:50% 80%}
+.food-tag-vegetarian{background:#e0f0e2;color:#22643a}.food-tag-vegetarian::before{content:'🌿'}
+.food-tag-vegan{background:#e0f0e2;color:#22643a}.food-tag-vegan::before{content:'🌱'}
+.food-tag-halal{background:#dcefea;color:#13695f}.food-tag-halal::before{content:'☪'}
+.food-tag-gluten-free{background:#f6ead0;color:#7d5a10}.food-tag-gluten-free::before{content:'🌾'}
+.food-tag-seafood{background:#dbedf4;color:#1d5a73}.food-tag-seafood::before{content:'🐟'}
+.food-tag-contains-nuts{background:#f3e3d1;color:#80522a}.food-tag-contains-nuts::before{content:'🥜'}
+@keyframes tag-pop{0%{opacity:0;transform:translateY(8px) scale(.6)}100%{opacity:1;transform:none}}
+@keyframes tag-shine{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+@keyframes tag-twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.35) rotate(90deg)}}
+@keyframes tag-wiggle{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-14deg)}86%{transform:rotate(12deg)}94%{transform:rotate(-6deg)}}
+
+/* Customer dish cards */
+.dish-grid .dish{animation:dish-in .5s cubic-bezier(.2,.75,.25,1) both;animation-delay:calc(var(--i,0) * 45ms);transition:transform .25s,box-shadow .25s}
+.dish-grid .dish:hover{transform:translateY(-5px);box-shadow:0 20px 40px -22px #12403c73}
+@keyframes dish-in{from{opacity:0;transform:translateY(16px) scale(.98)}}
+.dish-grid .dish .dish-art{position:relative;isolation:isolate;background:radial-gradient(circle at 50% 46%,#fffaf0 0 26%,transparent 52%),radial-gradient(#c9973b26 1.1px,transparent 1.3px) 0 0/15px 15px,radial-gradient(120% 90% at 85% 105%,#e2c38a8c,transparent 60%),linear-gradient(155deg,#f8f0e1,#eedfc4)}
+.dish-grid .dish .dish-art::before{content:'';position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);border:1.5px dashed #c9973b59;z-index:-1;animation:plate-spin 40s linear infinite}
+.dish-grid .dish .dish-art img{z-index:1}
+.dish-grid .dish .dish-art .dish-category{z-index:2;font-size:11px;font-weight:700;padding:6px 11px;border-radius:999px;background:#fffdf6f0;color:#12403c;box-shadow:0 3px 10px -3px #12403c40;overflow:hidden;animation:tag-pop .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i,0) * 45ms + .1s)}
+.dish-grid .dish .dish-category::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,#c9973b40 50%,transparent 70%);transform:translateX(-130%)}
+.dish-grid .dish:hover .dish-category::after{animation:tag-shine .9s ease-out}
+.dish-tags{position:absolute;left:12px;right:12px;bottom:12px;z-index:2;display:flex;flex-wrap:wrap;gap:6px}
+.dish-prep{font-size:12px!important;color:#5f7774!important;margin:6px 0 0!important}
+@keyframes plate-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.categories .category{transition:background .2s,color .2s,border-color .2s,transform .15s}
+.categories .category:active{transform:scale(.95)}
+.categories .category.active{animation:chip-pop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes chip-pop{50%{transform:scale(1.08)}}
+
+html[data-theme=dark] .food-tag:not([class*=food-tag-]){background:#1c302df2;color:#e8dcc2}
+html[data-theme=dark] .food-tag-chef-s-pick{background:#0c2523;box-shadow:inset 0 0 0 1px #d6ad5c99,0 3px 10px -2px #0006}
+html[data-theme=dark] .dish-grid .dish .dish-art{background:radial-gradient(circle at 50% 46%,#24423e 0 26%,transparent 52%),radial-gradient(#d6ad5c1f 1.1px,transparent 1.3px) 0 0/15px 15px,radial-gradient(120% 90% at 85% 105%,#d6ad5c33,transparent 60%),linear-gradient(155deg,#1a2e2c,#14403b)}
+html[data-theme=dark] .dish-grid .dish .dish-art .dish-category{background:#142221f0;color:#e8c983}
+html[data-theme=dark] .dish-prep{color:#93aaa7!important}
+@media(max-width:650px){.dish-grid .dish .dish-art .dish-category{font-size:10px;padding:5px 9px}.food-tag{font-size:10px;padding:4px 8px 4px 7px}.dish-tags{left:9px;right:9px;bottom:9px;gap:4px}}
+@media(prefers-reduced-motion:reduce){.food-tag,.food-tag::before,.food-tag::after,.dish-grid .dish,.dish-grid .dish .dish-art::before,.dish-grid .dish .dish-category,.dish-grid .dish .dish-category::after,.categories .category.active{animation:none!important}}

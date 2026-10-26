@@ -1,0 +1,1 @@
+(() => {try{const saved=localStorage.getItem('srok-theme');document.documentElement.dataset.theme=saved==='dark'||saved==='light'?saved:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.lang=localStorage.getItem('srok-language')==='km'?'km':'en';}catch{document.documentElement.dataset.theme='light';}})();

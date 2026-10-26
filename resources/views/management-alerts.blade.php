@@ -1,0 +1,1 @@
+@if($errors->any())<div class="manager-alert alert-error" role="alert">@foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif @if(session('success'))<div class="manager-alert" role="status">{{ session('success') }}</div>@endif
